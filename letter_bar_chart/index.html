@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!-- we are using html 5 -->
+
+<head>
+<meta charset="utf-8">
+
+<title>Letter Count Bar Chart</title>
+
+<!-- this allows us to use the non-standard Roboto web font -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300italic" rel="stylesheet" type="text/css">
+
+<!-- this is our custom css stylesheet -->
+<link href="style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<!-- we will place our visualization in this svg using d3.js -->
+<svg></svg>
+
+<!-- we will place the text to analyze here using javascript -->
+<textarea></textarea>
+
+<!-- include d3.js -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<!-- include custom javascript -->
+<script src="count.js"></script>
+<script src="chart.js"></script>
+
+<!-- here is our core javascript -->
+<script type="text/javascript">
+// inside the script tag, // and /* */ are comments
+// outside the script tag, <!-- --> are comments
+
+// we need to load the text file into the textarea
+// this will be done asynchronously!
+// https://github.com/d3/d3-request/blob/master/README.md#text
+d3.text("peter.txt", function(error, data) {
+    // we are creating a function within a method call here
+
+    if (error) throw error;
+
+    // we will use the console and developer tools extensively
+    console.log(data);
+
+    // now we select the textarea from the DOM and update
+    // https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model
+    // https://github.com/d3/d3-selection/blob/master/README.md#select
+    d3.select("body").select("textarea").text(data);
+
+    // updateData();
+    drawBarChart();
+});
+
+// this message will appear BEFORE the text is logged!
+console.log("after d3.text() call");
+
+// add an event listener to our text area and
+// update our chart every time new data is entered
+d3.select("body").select("textarea")
+  .on("keyup", drawBarChart);
+</script>
+
+</body>
